@@ -1,7 +1,7 @@
 package guru.springframework.mssc.beer.inventory.service.events.listeners;
 
 import guru.springframework.mssc.beer.inventory.service.configuration.JmsConfiguration;
-import guru.cfg.brewery.model.events.NewBeerEvent;
+import guru.cfg.brewery.model.messages.NewBeerEvent;
 import guru.springframework.mssc.beer.inventory.service.services.NewBeerHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

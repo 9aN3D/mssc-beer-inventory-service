@@ -1,7 +1,7 @@
 package guru.springframework.mssc.beer.inventory.service.services;
 
 import guru.springframework.mssc.beer.inventory.service.domain.BeerInventory;
-import guru.cfg.brewery.model.events.NewBeerEvent;
+import guru.cfg.brewery.model.messages.NewBeerEvent;
 import guru.springframework.mssc.beer.inventory.service.repository.BeerInventoryRepository;
 import guru.cfg.brewery.model.BeerDto;
 import lombok.RequiredArgsConstructor;
