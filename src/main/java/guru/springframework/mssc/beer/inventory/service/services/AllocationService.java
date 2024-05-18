@@ -49,7 +49,7 @@ public interface AllocationService {
             if (inventory >= qtyToAllocate) {
                 allocateFull(beerInventory, beerOrderLine);
             }
-            if (inventory > 0) { //partial allocation
+            if (inventory > 0) {
                 allocatePartial(beerInventory, beerOrderLine);
             }
         }

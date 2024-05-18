@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewBeerEvent implements Serializable {
+public class NewBeerEvent implements Message {
 
     private static final long serialVersionUID = 103745828558417299L;
 
