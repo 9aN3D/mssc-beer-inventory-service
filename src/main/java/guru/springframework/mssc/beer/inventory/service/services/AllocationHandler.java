@@ -30,7 +30,7 @@ public interface AllocationHandler {
             resultBuilder.beerOrder(request.getBeerOrder());
             try {
                 requireNonNull(request.getBeerOrder());
-                resultBuilder.pendingInventory(allocationService.allocateOrder(request.getBeerOrder()));
+                resultBuilder.pendingInventory(!allocationService.allocateOrder(request.getBeerOrder()));
             } catch (Exception ex) {
                 log.error("Failed to handle AllocateOrderRequest: {}", request.getBeerOrder(), ex);
                 resultBuilder.error(true);
