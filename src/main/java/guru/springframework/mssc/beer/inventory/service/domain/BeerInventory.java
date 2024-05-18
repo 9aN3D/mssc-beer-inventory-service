@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+
 @Setter
 @Getter
 @Entity
@@ -37,6 +39,10 @@ public class BeerInventory extends BaseEntity {
         this.beerId = beerId;
         this.upc = upc;
         this.quantityOnHand = quantityOnHand;
+    }
+
+    public int getQuantityOnHandOrZero() {
+        return isNull(quantityOnHand) ? 0 : quantityOnHand;
     }
 
 }
