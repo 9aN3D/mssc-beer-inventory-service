@@ -9,14 +9,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 public interface AllocationService {
 
     boolean allocateOrder(BeerOrderDto beerOrder);
+
+    void deallocateOrder(BeerOrderDto beerOrder);
 
     @Slf4j
     @Service
@@ -44,6 +49,14 @@ public interface AllocationService {
             return totalOrdered.get() == totalAllocated.get();
         }
 
+        @Override
+        public void deallocateOrder(BeerOrderDto beerOrder) {
+            for (BeerInventory beerInventory : prepareBeerInventories(beerOrder.getBeerOrderLines())) {
+                BeerInventory savedBeerInventory = beerInventoryRepository.save(beerInventory);
+                log.debug("Saved Inventory for beer upc: {} inventory id: {}", savedBeerInventory.getUpc(), savedBeerInventory.getId());
+            }
+        }
+
         private void allocateBeerOrderLine(BeerInventory beerInventory, int qtyToAllocate, BeerOrderLineDto beerOrderLine) {
             int inventory = beerInventory.getQuantityOnHandOrZero();
             if (inventory >= qtyToAllocate) {
@@ -65,6 +78,14 @@ public interface AllocationService {
             beerInventory.setQuantityOnHand(beerInventory.getQuantityOnHandOrZero() - beerOrderLine.calculateQtyToAllocate());
 
             beerInventoryRepository.save(beerInventory);
+        }
+
+        private List<BeerInventory> prepareBeerInventories(List<BeerOrderLineDto> beerOrderLines) {
+            return isNull(beerOrderLines)
+                    ? List.of()
+                    : beerOrderLines.stream()
+                    .map(BeerInventory::of)
+                    .collect(Collectors.toList());
         }
 
     }
